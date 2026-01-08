@@ -8,12 +8,13 @@ OBJCOPY     = riscv-none-elf-objcopy
 
 LDFLAGS     = -nostdlib -lc -lgcc
 CFLAGS      = -march=rv32ima_zicsr -mabi=ilp32 -Wl,--gc-sections -ffunction-sections -fdata-sections -fdiagnostics-show-option -fno-builtin
+DEBUG_CFLAGS = -Wa,-adghln=Asm_after_as.lst -fverbose-asm  # -save-temps
 DEBUG_FLAGS = --source --all-headers --demangle --line-numbers --wide
 
 all:
 	@printf "$(YELLOW)-------- Compile Hello, World! --------$(END)\n"
-	$(RISCV_CC) $(CFLAGS) hello.s hello.c -Thello.lds $(LDFLAGS) -o hello.elf
-	$(OBJDUMP) $(DEBUG_FLAGS) hello.elf > hello.lst
+	$(RISCV_CC) $(DEBUG_CFLAGS) $(CFLAGS) hello.s hello.c -Thello.lds $(LDFLAGS) -o hello.elf
+	$(OBJDUMP) $(DEBUG_FLAGS) hello.elf > hello_elf.c-objdump
 	$(OBJCOPY) -O binary hello.elf hello.bin
 
 qemu: all
