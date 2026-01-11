@@ -13,7 +13,7 @@ DEBUG_FLAGS = --source --all-headers --demangle --line-numbers --wide
 
 all:
 	@printf "$(YELLOW)-------- Compile Hello, World! --------$(END)\n"
-	$(RISCV_CC) $(DEBUG_CFLAGS) $(CFLAGS) hello.s hello.c -Thello.lds $(LDFLAGS) -o hello.elf
+	$(RISCV_CC) $(DEBUG_CFLAGS) $(CFLAGS) hello.s hello.c -Thello.ld $(LDFLAGS) -o hello.elf
 	$(OBJDUMP) $(DEBUG_FLAGS) hello.elf > hello_elf.c-objdump
 	$(OBJCOPY) -O binary hello.elf hello.bin
 
